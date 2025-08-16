@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import CustomizePage from './pages/CustomizePage';
 import Layout from './components/layout/Layout';
+import OrderConfirmation  from "./pages/OrderConfirmation";
+import AccountPage from './pages/AccountPage';
+import AdminDashboard from "./pages/AdminDashboard.jsx";
 
 const theme = extendTheme({
     fonts: {
@@ -26,6 +29,9 @@ function App() {
                     <Routes>
                         <Route path="/" element={<HomePage />} />
                         <Route path="/customize" element={<CustomizePage />} />
+                        <Route path="/order-confirmation" element={<OrderConfirmation />} />
+                        <Route path="/account" element={<AccountPage />} />
+                        <Route path="/admin" element={<AdminDashboard />} />
                     </Routes>
                 </Layout>
             </Router>
