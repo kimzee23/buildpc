@@ -1,21 +1,35 @@
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import Build from './pages/Build';
-import Checkout from './pages/Checkout';
-import Confirmation from './pages/Confirmation';
-import Header from './components/Header';
+import HomePage from './pages/HomePage';
+import CustomizePage from './pages/CustomizePage';
+import Layout from './components/layout/Layout';
+
+const theme = extendTheme({
+    fonts: {
+        heading: "'Inter', sans-serif",
+        body: "'Inter', sans-serif",
+    },
+    colors: {
+        brand: {
+            900: '#1a365d',
+            800: '#153e75',
+            700: '#2a69ac',
+        },
+    },
+});
 
 function App() {
     return (
-        <Router>
-            <Header />
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/build" element={<Build />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/confirmation" element={<Confirmation />} />
-            </Routes>
-        </Router>
+        <ChakraProvider theme={theme}>
+            <Router>
+                <Layout>
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/customize" element={<CustomizePage />} />
+                    </Routes>
+                </Layout>
+            </Router>
+        </ChakraProvider>
     );
 }
 
