@@ -5,28 +5,38 @@ const HeroSection = () => {
     const navigate = useNavigate();
 
     return (
-        <Box
-            position="relative"
-            h="100vh"
-            w="100%"
-            overflow="hidden"
-        >
+        <Box position="relative" h="100vh" w="100%" overflow="hidden">
+            {/* Video Background */}
             <video
                 autoPlay
                 loop
                 muted
                 playsInline
                 style={{
-                    position: 'absolute',
-                    width: '100%',
-                    height: '100%',
-                    objectFit: 'cover',
-                    zIndex: -1
+                    position: "absolute",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                    zIndex: -2, // push further back
                 }}
             >
                 <source src="/assets/videos/laptop-hero.mp4" type="video/mp4" />
             </video>
 
+            {/* Fallback Image (behind video) */}
+            <Box
+                position="absolute"
+                top={0}
+                left={0}
+                w="100%"
+                h="100%"
+                bgImage="url('/assets/images/laptop-hero.jpg')"
+                bgSize="cover"
+                bgPos="center"
+                zIndex={-3} // keep under video
+            />
+
+            {/* Overlay + Content */}
             <Flex
                 h="100%"
                 align="center"
@@ -41,13 +51,13 @@ const HeroSection = () => {
                     <Text fontSize="xl" maxW="2xl">
                         Build the laptop that works as hard as you do.
                     </Text>
-                    <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
+                    <Flex gap={4} direction={{ base: "column", md: "row" }}>
                         <Button
                             size="lg"
                             colorScheme="blackAlpha"
                             bg="black"
-                            _hover={{ bg: 'gray.800' }}
-                            onClick={() => navigate('/customize')}
+                            _hover={{ bg: "gray.800" }}
+                            onClick={() => navigate("/customize")}
                         >
                             Customize Now
                         </Button>
@@ -55,7 +65,7 @@ const HeroSection = () => {
                             size="lg"
                             variant="outline"
                             color="white"
-                            _hover={{ bg: 'whiteAlpha.200' }}
+                            _hover={{ bg: "whiteAlpha.200" }}
                         >
                             Learn More
                         </Button>

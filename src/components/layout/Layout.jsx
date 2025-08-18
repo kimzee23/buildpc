@@ -1,4 +1,14 @@
-import { Box, Flex, Heading, Link, Button, Spacer, useColorModeValue } from '@chakra-ui/react';
+import {
+    Box,
+    Flex,
+    Heading,
+    Link,
+    Button,
+    Spacer,
+    useColorModeValue,
+    VStack,
+    Text,
+} from '@chakra-ui/react';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 
@@ -10,29 +20,14 @@ const Layout = ({ children }) => {
 
     return (
         <Box minH="100vh" display="flex" flexDirection="column">
-            {/* Header */}
-            <Flex
-                as="header"
-                p={4}
-                bg={bg}
-                color={color}
-                align="center"
-                position="sticky"
-                top={0}
-                zIndex="sticky"
-            >
+            {/* header */}
+            <Flex as="header" p={4} bg={bg} color={color} align="center" position="sticky" top={0} zIndex="sticky">
                 <Heading as="h1" size="lg">
-                    <Link
-                        as={RouterLink}
-                        to="/"
-                        _hover={{ textDecoration: 'none' }}
-                    >
+                    <Link as={RouterLink} to="/" _hover={{ textDecoration: 'none' }}>
                         SharpLaptops
                     </Link>
                 </Heading>
-
                 <Spacer />
-
                 <Flex gap={4} align="center">
                     <Link as={RouterLink} to="/customize" px={2} py={1}>
                         Customize
@@ -62,21 +57,10 @@ const Layout = ({ children }) => {
                         </>
                     ) : (
                         <>
-                            <Button
-                                as={RouterLink}
-                                to="/login"
-                                variant="outline"
-                                colorScheme="whiteAlpha"
-                                size="sm"
-                            >
+                            <Button as={RouterLink} to="/login" variant="outline" colorScheme="whiteAlpha" size="sm">
                                 Login
                             </Button>
-                            <Button
-                                as={RouterLink}
-                                to="/register"
-                                colorScheme="whiteAlpha"
-                                size="sm"
-                            >
+                            <Button as={RouterLink} to="/register" colorScheme="whiteAlpha" size="sm">
                                 Register
                             </Button>
                         </>
@@ -84,20 +68,12 @@ const Layout = ({ children }) => {
                 </Flex>
             </Flex>
 
-            {/* Main Content */}
-            <Box as="main" flex={1}>
-                {children}
-            </Box>
+            {/* main */}
+            <Box as="main" flex={1}>{children}</Box>
 
-            {/* Footer */}
+            {/* footer */}
             <Box as="footer" bg={bg} color={color} py={8} px={4}>
-                <Flex
-                    maxW="6xl"
-                    mx="auto"
-                    justify="space-between"
-                    direction={{ base: 'column', md: 'row' }}
-                    gap={4}
-                >
+                <Flex maxW="6xl" mx="auto" justify="space-between" direction={{ base: 'column', md: 'row' }} gap={4}>
                     <Box>
                         <Heading size="md" mb={2}>SharpLaptops</Heading>
                         <Text>Build your perfect laptop</Text>

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Heading, Text, VStack } from '@chakra-ui/react';
+import { Box, Button,  Heading, Text, VStack } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import HeroSection from '../components/home/HeroSection';
 import CustomizationSteps from '../components/home/CustomizationSteps';
@@ -7,14 +7,13 @@ import PerformanceHighlights from '../components/home/PerformanceHighlights';
 
 const HomePage = () => {
     const navigate = useNavigate();
-
     return (
         <Box>
             <HeroSection />
 
             <CustomizationSteps />
 
-            <FeaturedModels />
+            <FeaturedModels  />
 
             <PerformanceHighlights />
 

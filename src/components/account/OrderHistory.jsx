@@ -1,6 +1,7 @@
 import { Box, Table, Thead, Tbody, Tr, Th, Td, Text, Badge } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Image } from '@chakra-ui/react';
 
 const OrderHistory = () => {
     const [orders, setOrders] = useState([]);

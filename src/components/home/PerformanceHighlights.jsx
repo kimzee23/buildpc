@@ -1,62 +1,43 @@
-import { Box, Flex, Heading, Text, VStack, HStack, Icon } from '@chakra-ui/react';
-import { FaBatteryFull, FaSnowflake, FaWeight, FaBrain } from 'react-icons/fa';
 
-const features = [
-    {
-        icon: FaBatteryFull,
-        title: "Up to 20 hours battery",
-        description: "Work all day without needing to recharge."
-    },
-    {
-        icon: FaSnowflake,
-        title: "Next-gen cooling system",
-        description: "Stay cool under pressure with our advanced thermal architecture."
-    },
-    {
-        icon: FaWeight,
-        title: "Ultra-thin aluminum body",
-        description: "Premium materials for durability and style."
-    },
-    {
-        icon: FaBrain,
-        title: "AI-powered performance boost",
-        description: "Intelligent optimization for your workflow."
-    }
-];
+import { VStack, HStack, Box, Heading, Text, Icon } from "@chakra-ui/react";
+import { FaLaptop, FaBolt, FaShieldAlt } from "react-icons/fa";
 
-const PerformanceHighlights = () => {
+export default function FeaturesSection() {
+    const features = [
+        {
+            icon: FaLaptop,
+            title: "Powerful Hardware",
+            description: "Experience top-tier performance with the latest processors.",
+        },
+        {
+            icon: FaBolt,
+            title: "Fast Charging",
+            description: "Stay powered up with quick charge support.",
+        },
+        {
+            icon: FaShieldAlt,
+            title: "Durable Design",
+            description: "Built to last with reinforced materials.",
+        },
+    ];
+
     return (
-        <Box py={20} px={8} maxW="7xl" mx="auto">
-            <Flex direction={{ base: 'column', md: 'row' }} gap={12} align="center">
-                <Box flex="1">
-                    <Image
-                        src="/assets/images/laptop-keyboard.jpg"
-                        alt="Laptop keyboard"
-                        borderRadius="lg"
-                        w="100%"
-                    />
-                </Box>
+        <VStack spacing={8} align="start">
+            <Heading as="h2" size="xl">
+                Engineered for Performance
+            </Heading>
 
-                <Box flex="1">
-                    <VStack spacing={8} align="start">
-                        <Heading as="h2" size="xl">Engineered for Performance</Heading>
-
-                        {features.map((feature, index) => (
-                            <HStack key={index} align="start" spacing={4}>
-                                <Box p={2} bg="brand.50" borderRadius="full">
-                                    <Icon as={feature.icon} boxSize={6} color="brand.600" />
-                                </Box>
-                                <Box>
-                                    <Text fontWeight="bold">{feature.title}</Text>
-                                    <Text color="gray.600">{feature.description}</Text>
-                                </Box>
-                            </HStack>
-                        ))}
-                    </VStack>
-                </Box>
-            </Flex>
-        </Box>
+            {features.map((feature, index) => (
+                <HStack key={index} align="start" spacing={4}>
+                    <Box p={2} bg="gray.100" borderRadius="full">
+                        <Icon as={feature.icon} boxSize={6} color="blue.600" />
+                    </Box>
+                    <Box>
+                        <Text fontWeight="bold">{feature.title}</Text>
+                        <Text color="gray.600">{feature.description}</Text>
+                    </Box>
+                </HStack>
+            ))}
+        </VStack>
     );
-};
-
-export default PerformanceHighlights;
+}

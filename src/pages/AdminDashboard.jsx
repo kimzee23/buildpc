@@ -1,53 +1,62 @@
-import { Box, Grid, GridItem, Heading, Stat, StatLabel, StatNumber, StatHelpText } from '@chakra-ui/react';
-import AdminOrders from '../components/admin/AdminOrders';
-import AdminProducts from '../components/admin/AdminProducts';
+import { Box, SimpleGrid, Heading, Text, Button, Image, Stack } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom';
 
-const AdminDashboard = () => {
+const FeaturedModels = ({ laptops = [] }) => {
+    const navigate = useNavigate();
+
     return (
-        <Box p={8}>
-            <Heading as="h1" size="xl" mb={8}>Admin Dashboard</Heading>
+        <Box py={20} px={8} bg="gray.50">
+            <Heading as="h2" size="xl" textAlign="center" mb={12}>
+                Featured Laptop Models
+            </Heading>
 
-            <Grid templateColumns="repeat(4, 1fr)" gap={6} mb={8}>
-                <GridItem colSpan={1}>
-                    <Stat p={4} bg="white" borderRadius="md" boxShadow="md">
-                        <StatLabel>Total Orders</StatLabel>
-                        <StatNumber>1,234</StatNumber>
-                        <StatHelpText>+12% this month</StatHelpText>
-                    </Stat>
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Stat p={4} bg="white" borderRadius="md" boxShadow="md">
-                        <StatLabel>Revenue</StatLabel>
-                        <StatNumber>₦12,345,678</StatNumber>
-                        <StatHelpText>+8% this month</StatHelpText>
-                    </Stat>
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Stat p={4} bg="white" borderRadius="md" boxShadow="md">
-                        <StatLabel>Customers</StatLabel>
-                        <StatNumber>567</StatNumber>
-                        <StatHelpText>+5% this month</StatHelpText>
-                    </Stat>
-                </GridItem>
-                <GridItem colSpan={1}>
-                    <Stat p={4} bg="white" borderRadius="md" boxShadow="md">
-                        <StatLabel>Avg. Order Value</StatLabel>
-                        <StatNumber>₦234,567</StatNumber>
-                        <StatHelpText>+3% this month</StatHelpText>
-                    </Stat>
-                </GridItem>
-            </Grid>
+            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} maxW="7xl" mx="auto">
+                {laptops?.map((laptop, index) => (
+                    <Box
+                        key={index}
+                        borderRadius="lg"
+                        overflow="hidden"
+                        boxShadow="md"
+                        _hover={{ transform: 'translateY(-5px)', boxShadow: 'xl' }}
+                        transition="all 0.3s ease"
+                        bg="white"
+                    >
+                        {/* Laptop Image */}
+                        <Image
+                            src={`/assets/images/${laptop.modelName.toLowerCase().replace(/\s+/g, '-')}.jpg`}
+                            alt={laptop.modelName}
+                            h="300px"
+                            w="100%"
+                            objectFit="cover"
+                            _hover={{ transform: 'scale(1.05)' }}
+                            transition="transform 0.3s ease"
+                        />
 
-            <Grid templateColumns="repeat(2, 1fr)" gap={8}>
-                <GridItem>
-                    <AdminOrders />
-                </GridItem>
-                <GridItem>
-                    <AdminProducts />
-                </GridItem>
-            </Grid>
+                        {/* Laptop Info */}
+                        <Stack p={6} spacing={3}>
+                            <Heading size="md">{laptop.modelName}</Heading>
+                            <Text color="gray.600">
+                                Starting at ₦{laptop.basePrice.toLocaleString()}
+                            </Text>
+                            <Text noOfLines={3}>{laptop.features?.join(' • ')}</Text>
+
+                            {/* CTA */}
+                            <Button
+                                mt={4}
+                                w="100%"
+                                colorScheme="teal"
+                                onClick={() =>
+                                    navigate('/customize', { state: { model: laptop.modelName } })
+                                }
+                            >
+                                Customize
+                            </Button>
+                        </Stack>
+                    </Box>
+                ))}
+            </SimpleGrid>
         </Box>
     );
 };
 
-export default AdminDashboard;
+export default FeaturedModels;

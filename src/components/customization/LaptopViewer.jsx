@@ -1,4 +1,4 @@
-import { Suspense, useState, useRef } from 'react';
+import { Suspense, useState, useRef, useEffect, forwardRef } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment } from '@react-three/drei';
 import {
@@ -8,21 +8,34 @@ import {
     SliderFilledTrack,
     SliderThumb,
     VStack,
+    Text,
+    Spinner,
+    Center,
 } from '@chakra-ui/react';
 
-function Model({ modelUrl, color }) {
+// Forward ref so RotatingModel can control rotation
+const Model = forwardRef(({ modelUrl, color }, ref) => {
     const { scene } = useGLTF(modelUrl);
-    const ref = useRef();
 
-    // Apply color to the laptop body
-    scene.traverse((child) => {
-        if (child.isMesh && child.name === 'Laptop_Body') {
-            child.material.color.setHex(parseInt(color.replace('#', '0x')));
+    useEffect(() => {
+        if (scene) {
+            scene.traverse((child) => {
+                if (child.isMesh && child.material) {
+                    try {
+                        const hexColor = color?.startsWith('#')
+                            ? parseInt(color.replace('#', '0x'), 16)
+                            : 0x2a69ac;
+                        child.material.color.setHex(hexColor);
+                    } catch (error) {
+                        console.error('Error applying color:', error);
+                    }
+                }
+            });
         }
-    });
+    }, [scene, color]);
 
-    return <primitive object={scene} ref={ref} />;
-}
+    return scene ? <primitive object={scene} ref={ref} /> : null;
+});
 
 function RotatingModel({ modelUrl, color, rotationSpeed }) {
     const ref = useRef();
@@ -33,12 +46,22 @@ function RotatingModel({ modelUrl, color, rotationSpeed }) {
         }
     });
 
-    return <Model modelUrl={modelUrl} color={color} ref={ref} />;
+    return <Model ref={ref} modelUrl={modelUrl} color={color} />;
 }
 
 const LaptopViewer = ({ selectedModel, selectedColor }) => {
     const [rotationSpeed, setRotationSpeed] = useState(0.005);
-    const [autoRotate, setAutoRotate] = useState(true);
+    const [autoRotate] = useState(true);
+
+    if (!selectedModel) {
+        return (
+            <Center h="600px">
+                <Text>No model selected</Text>
+            </Center>
+        );
+    }
+
+    const modelPath = `/assets/models/${selectedModel}.glb`;
 
     return (
         <VStack spacing={4} w="100%" h="600px">
@@ -48,19 +71,16 @@ const LaptopViewer = ({ selectedModel, selectedColor }) => {
                     <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} />
                     <pointLight position={[-10, -10, -10]} />
 
-                    <Suspense fallback={null}>
+                    <Suspense fallback={<Spinner size="xl" />}>
                         {autoRotate ? (
                             <RotatingModel
-                                modelUrl={`/assets/models/${selectedModel}.glb`}
-                                color={selectedColor}
+                                modelUrl={modelPath}
+                                color={selectedColor || '#2a69ac'}
                                 rotationSpeed={rotationSpeed}
                             />
                         ) : (
                             <>
-                                <Model
-                                    modelUrl={`/assets/models/${selectedModel}.glb`}
-                                    color={selectedColor}
-                                />
+                                <Model modelUrl={modelPath} color={selectedColor || '#2a69ac'} />
                                 <OrbitControls enableZoom={true} />
                             </>
                         )}
@@ -69,6 +89,7 @@ const LaptopViewer = ({ selectedModel, selectedColor }) => {
                 </Canvas>
             </Box>
 
+            {/* Rotation speed slider */}
             <Slider
                 defaultValue={5}
                 min={0}
@@ -85,5 +106,4 @@ const LaptopViewer = ({ selectedModel, selectedColor }) => {
         </VStack>
     );
 };
-
-export default LaptopViewer;
+export default  LaptopViewer ;

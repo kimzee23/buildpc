@@ -1,52 +1,46 @@
-import { Box, SimpleGrid, Heading, Text, Button, Card, CardBody, CardFooter, Image, Stack } from '@chakra-ui/react';
-import { useNavigate } from 'react-router-dom';
+import { Box, SimpleGrid, Heading, Text, Image, Card, CardBody } from '@chakra-ui/react';
+import React from 'react';
 
-const FeaturedModels = ({ laptops }) => {
-    const navigate = useNavigate();
-
+const FeaturedModels = ({ laptops = [] }) => {
     return (
-        <Box py={20} px={8} bg="gray.50">
-            <Heading as="h2" size="xl" textAlign="center" mb={12}>
+        <Box as="section" py={10} px={6}>
+            <Heading size="xl" mb={6} textAlign="center">
                 Featured Laptop Models
             </Heading>
 
-            <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10} maxW="7xl" mx="auto">
-                {laptops.map((laptop, index) => (
-                    <Card
-                        key={index}
-                        borderRadius="lg"
-                        overflow="hidden"
-                        _hover={{ transform: 'translateY(-5px)', boxShadow: 'xl' }}
-                        transition="all 0.3s ease"
-                    >
-                        <CardBody p={0}>
-                            <Image
-                                src={`/assets/images/${laptop.modelName.toLowerCase().replace(' ', '-')}.jpg`}
-                                alt={laptop.modelName}
-                                h="300px"
-                                w="100%"
-                                objectFit="cover"
-                                _hover={{ transform: 'scale(1.05)' }}
-                                transition="transform 0.3s ease"
-                            />
-                            <Stack p={6} spacing={3}>
-                                <Heading size="md">{laptop.modelName}</Heading>
-                                <Text color="gray.600">Starting at ${laptop.basePrice}</Text>
-                                <Text noOfLines={3}>{laptop.features.join(' • ')}</Text>
-                            </Stack>
-                        </CardBody>
-                        <CardFooter>
-                            <Button
-                                w="100%"
-                                colorScheme="blackAlpha"
-                                onClick={() => navigate('/customize', { state: { model: laptop.modelName } })}
-                            >
-                                Customize
-                            </Button>
-                        </CardFooter>
-                    </Card>
-                ))}
-            </SimpleGrid>
+            {laptops.length === 0 ? (
+                <Text textAlign="center" color="gray.500">
+                    No laptops available yet.
+                </Text>
+            ) : (
+                <SimpleGrid columns={[1, 2, 3]} spacing={6}>
+                    {laptops.map((laptop, index) => (
+                        <Card
+                            key={index}
+                            borderRadius="lg"
+                            overflow="hidden"
+                            _hover={{
+                                transform: 'translateY(-5px)',
+                                boxShadow: 'xl',
+                            }}
+                        >
+                            <CardBody>
+                                <Image
+                                    src={laptop.image}
+                                    alt={laptop.name}
+                                    objectFit="cover"
+                                    borderRadius="md"
+                                    mb={3}
+                                />
+                                <Heading size="md">{laptop.name}</Heading>
+                                <Text mt={2} color="gray.600">
+                                    {laptop.description}
+                                </Text>
+                            </CardBody>
+                        </Card>
+                    ))}
+                </SimpleGrid>
+            )}
         </Box>
     );
 };
